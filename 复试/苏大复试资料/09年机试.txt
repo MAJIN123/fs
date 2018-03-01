@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <string.h>
+
+void main ()
+{
+	FILE *fp,*out;
+	
+	char a[18],c;
+	
+	int b[100], i, j, k,s,m,temp;
+
+	k = 0;
+
+	fp = fopen ("d:\\org.dat","rb");
+
+	out = fopen ("d:\\new.txt","w");
+
+	while (!feof (fp))
+	{
+
+		i=0;
+
+		while ((c=fgetc (fp))!=','&&!feof (fp))
+		{
+			if (c!=' ')
+			{
+				a[i] = c;
+				i++;
+			}
+		}
+
+			a[i] = '\0';
+			
+			s = 0;
+
+			if (a[0]=='0')
+			{
+				for (j=1; j<i-1; j++)
+				{
+					s += int(a[j]-'0');
+					s *= 10;
+				}
+				s += int(a[i-1]-'0');
+				b[k] = s;
+			}
+			else
+			{
+				for (j=0; j<i-1; j++)
+				{
+					s += int(a[j]-'0');
+					s *= 10;
+				}
+				s += int(a[i-1]-'0');
+				b[k] = s;
+			}
+
+			k++;
+	}
+
+		for (i=0; i<k-1; i++)
+		{
+			j = i; 
+			for (m=j+1; m<k; m++)
+			{
+				if (b[j]<b[m])
+					j = m;
+			}
+			if (j!=i)
+			{
+				temp = b[i];
+				b[i] = b[j];
+				b[j] = temp;
+			}
+		}
+
+		for (i=0; i<k; i++)
+		{
+			fprintf (out,"%d\n",b[i]);
+		}
+}

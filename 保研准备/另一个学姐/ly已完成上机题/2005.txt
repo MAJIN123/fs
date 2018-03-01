@@ -1,0 +1,125 @@
+//2005年上级复试题
+	//第1道  把一个数表示成若干个素数的和
+	//第2道  一个递归程序，是关于如何选择机器人的最佳走步的
+	//第3道  统计篇文章中各英文字母的个数，并排序。
+
+(1)
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+//判断是否为素数
+int isprime(long n)
+{
+	int i;int j;
+	j=sqrt(n*1.0);
+	for(i=2;i<=j;i++)
+	{
+		if(n%i==0)
+		{
+			break;
+		}
+	}
+	if(i>j)
+	{
+		return 1;
+	}else
+	{
+		return 0;
+	}
+
+}
+
+//递归函数，把一个数表示成若干素数的和
+//这种拆分方法很简单，效率很低，有待优化
+void printsplitprime(long m)
+{
+	long n;
+	if(m==3||m==2||m==5||m==7||m==9)
+	{
+		printf("%ld",m);
+		return;
+	}
+	n=m/2;//为了控制所需素数的个数，每次寻找小于该数一半的最大素数
+	while(!isprime(n))
+	{
+		n--;
+	}
+	printf("%ld+",n);
+	printsplitprime(m-n);
+
+}
+void main()
+{
+	long n;
+	for(;;){
+	printf("请输入一个整数：");
+	scanf("%d",&n);
+	printsplitprime(n);
+	}
+	
+
+}
+
+
+(3)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+void sort(char a[],int n)
+{
+	int i,j;int temp;
+	for(i=0;i<n-1;i++)
+	{
+		for(j=0;j<n-i-1;j++)
+		{
+			if(a[j]<a[j+1])
+			{
+
+				temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}
+	}
+}
+void main()
+{
+	
+	char c[500];
+	int count=0;FILE *fp;int i=0,j=0;char ch;
+	if((fp=fopen("org3.dat","r"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+
+
+	    ch=fgetc(fp);
+		while(ch!=EOF)
+		
+		{
+			if((ch>='a')&&(ch<='z')||(ch>='A')&&(ch<='Z')){count++;
+			
+			c[i]=ch;i++;}
+			
+			
+			ch=fgetc(fp);
+		}c[i]='\0';
+		sort(c,500);
+		printf("字母的总数为：%d",count);
+		//printf("%s",c);
+		
+
+		
+		
+
+			
+			
+
+		
+
+		
+}

@@ -1,0 +1,59 @@
+	//2011年上机复试题
+	//第一道：输出1000~9999中满足一下条件的所有数：
+	//(1)该数是素数
+	//(2)十位数和个位数组成的数是素数，百位数和个位数组成的数是素数
+	//(3)千位数和百位数组成的数是素数，千位数和十位数组成的数是素数
+	//比如1991，千位和十位组成的数就是19
+
+#include <stdio.h>
+#include <math.h>
+
+int isprime (int x)
+{
+	int j, m,flag;
+	m = sqrt (x);
+	flag = 0;
+	for (j=2; j<=m; j++)
+	{
+		if (x%m==0)
+		{
+			flag = 1;
+			break;
+		}
+	}
+	if (flag)
+		return 0;
+	else
+		return 1;
+}
+
+void main ()
+{
+	int a, b, c, d,i, array[4];
+
+	for (i=1000; i<=9999; i++)
+	{
+		a = i/1000;
+		b = (i/100)%10;
+		c = (1/10)/10;
+		d = i%10;
+		array[0] = c*10 + d;
+		array[1] = b*10 + d;
+		array[2] = a*10 + b;
+		array[3] = a*10 + c;
+		if (isprime (i))
+		{
+			if (isprime (array[0]))
+			{
+				if (isprime (array[1]))
+				{
+					if (isprime (array[2]))
+					{
+						if (isprime(array[3]))
+							printf ("%d\n",i);
+					}
+				}
+			}
+		}
+	}
+}

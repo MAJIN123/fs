@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+struct coord
+{
+	int x;
+	int y;
+}coord[1024];//定义一个坐标结构体，横坐标x，纵坐标y；
+
+bool flag[1024];
+
+void main ()
+{
+	int i, j,k,num,minX,minY,minx, miny;
+
+	FILE *fp;
+	
+	bool flag1 = false ;
+	i=j=k=num=minX=minY=0;
+
+	char *p = "E:\\org.dat";
+
+	fp = fopen (p,"rb");
+	memset (flag, false,sizeof (bool));
+	if (fp == NULL)
+	{
+		printf ("can't open the file!\n");
+
+		exit (0);//推出程序；
+	}
+
+	while (!feof (fp))
+	{
+		//fread (&coord[i++],4,2,fp);
+		fscanf (fp,"%d%d",&coord[i].x,&coord[i].y);//读取坐标，保存在结构体数组里；
+		i++;
+	}
+	//printf ("%d\n",i);
+	for (j=0; j<i; j++)
+	{
+		if (coord[j].x>0&&coord[j].y>0)
+		{
+			num++;
+			flag[j] = true;
+			k = j;
+		}
+	}
+	minX = coord[k].x; 
+	minY = coord[k].y;
+	for (j=0; j<i; j++)
+	{
+		if (flag[j])
+		{
+			if (minX>coord[j].x)
+				minX = coord[j].x;
+			if (minY>coord[j].y)
+				minY = coord[j].y;
+		}
+	}
+	printf ("the first quadrant num is: %d\n",num);
+	printf ("the smallest area is: %d \n",minX*minY);
+	minx = coord[k].x; 
+	miny = coord[k].y;
+	for (j=0; j<i; j++)
+	{
+		if (flag[j])
+		{
+			if (minx>coord[j].x&&miny>coord[j].y)
+			{
+				k = i;
+				flag1 = true;
+			}
+		}
+	}
+
+	if (flag1)
+		printf ("the effected coord is : %d %d\n",coord[k].x,coord[k].y);
+	else
+	{
+		if (minX<coord[k].x||minY<coord[k].y)
+			printf ("it exits error !\n");
+	}
+
+	for (j=0; j<i; j++)
+		printf ("%d %d\n",coord[j].x,coord[j].y);
+}
+
+	
+

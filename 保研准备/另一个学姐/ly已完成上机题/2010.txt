@@ -1,0 +1,166 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+void sort(int a[],int n)
+{
+	int i,j;int temp;
+	for(i=0;i<n-1;i++)
+	{
+		for(j=0;j<n-i-1;j++)
+		{
+			if(a[j]>a[j+1])
+			{
+				temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}
+	}
+}
+int number(char c[])
+{
+	int i;int j;int sum=0;int s=1;
+	for(i=0;c[i]!='\0';i++){j=i;}
+	if(c[0]=='-')
+	{
+		for(i=j;i>=1;i--)
+	{
+		sum=sum+(c[i]-'0')*s;
+		s=s*10;
+		}
+		return sum*(-1);
+	}
+	else{
+	for(i=j;i>=0;i--)
+	{
+		sum=sum+(c[i]-'0')*s;
+		s=s*10;
+		}return sum;
+		
+		
+	}
+	
+}
+//2010年上机复试题
+	//1）FTP上下载make.exe和org.dat，运行make.exe输入准考证后三位生成data.txt，文件为二进制编码
+	//2）data.txt内存有2048个整数，其中前n个为非0数，后2048-n个数为0，将其读入数组，计算非零数的个数n
+	//3）选出n个数中的最大数&最小数
+	//4）选出n个数中最大素数
+	//5）将n个数从大到小排序，并平均分成3段（若n非3的整数倍，则不考虑最后的1~2个数），选出中间段的最大数和最小数
+void main()
+{
+	int flag=0;
+	int n;FILE *fp;FILE *ft;char c[20][6];int i=0,j=0;char ch;char b;int a[2048];
+	if((fp=fopen("newtxt.txt","r"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+
+
+	/*if((ft=fopen("newtxt.txt","w"))==NULL)
+	{
+		printf("不能打开文件");
+	}*/
+	ch=fgetc(fp);
+		while(ch!=EOF)
+		
+		{
+			if(ch!=' ')
+			{
+				c[i][j]=ch;
+				c[i][j+1]='\0';
+				
+				
+				j++;
+			}
+			else
+			{
+				
+				c[i][j]='\0';
+				i++;j=0;
+			}
+
+
+			ch=fgetc(fp);
+			
+		}
+;
+		for(i=0;i<20;i++)
+		{
+			//printf("%s\n",c[i]);
+			a[i]=number(c[i]);
+		}
+		sort(a,20);
+		for(i=0;i<20;i++)	
+		printf("%d\n",a[i]);
+
+	//int i,n,t,max,min,maxprime,maxmid,minmid,m;int nums[2048];
+	//FILE * fp;
+	//fp=fopen("newtxt.txt","rb");
+	//if(fp==NULL)
+	//{
+	//	printf("file open error.\n");
+	//	
+	//}
+	///*for(i=1;i<2000;i++)
+	//{
+	//	fprintf(fp,"%d",i);
+	//	fprintf(fp,"%c",' ');
+	//	
+	//}fprintf(fp,"%c",'\0');*/
+	//memset(nums,0,sizeof(nums));//数组元素初始化为0
+	//fread(nums,sizeof(int),2000,fp);//读出SU_LEN个整数存入数组
+	//printf("%c",nums[4]);
+	//fclose(fp);
+	////for(i=n=max=min=maxprime=0;i<2048;i++)
+	////{
+	////	if(nums[i]>0)
+	////	{
+	////		if(min==0)//判断是否已经赋值非零最小值
+	////		{
+	////			min=nums[i];
+	////		}
+	////		if(max==0)
+	////		{
+	////			max=nums[i];
+	////		}
+	////		n++;//非零数计数
+	////		if(nums[i]>max)//最大数
+	////		{
+	////			max=nums[i];
+	////		}
+	////		if(nums[i]<min)//最小数
+	////		{
+	////			min=nums[i];
+	////		}
+	////		if(isprime(nums[i]))//是否素数
+	////		{
+	////			if(nums[i]>maxprime)//最大素数
+	////			{
+	////				maxprime=nums[i];
+	////			}
+	////		}
+
+
+	////	}
+
+
+	//////数组排序从大到小
+	////sort(nums,2048);
+
+	//////对数组进行分段，先分析非零个数n是否为3的倍数，计算出3等分的每段元素个数，
+	//////由于已经对数组进行从大到小的排序则，前n个数组元素即为非零的n个元素，且每段分组的第一个元素是最大值，最后一个元素是最小值
+	////m=n;
+	////while(m%3!=0)//找出可以等分的总元素个数,即不考虑最后的1~2个数
+	////{
+	////	m--;
+	////}
+	////m=m/3;//每段的元素个数
+	////maxmid=nums[m];//中间段的最大数
+	////minmid=nums[m*2-1];//中间段的最小数
+	////
+	////printf("Total number:%d\nThe Max number is:%d\nThe min number is:%d\nThe max prime number is:%d\nThe max number in middle section is:%d\nThe min number in middle section is:%d\n",n,max,min,maxprime,maxmid,minmid);
+	////
+	////}
+}

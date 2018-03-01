@@ -1,0 +1,166 @@
+
+//2011年上机复试题
+	//第一道：输出~9999中满足一下条件的所有数：
+	//(1)该数是素数
+	//(2)十位数和个位数组成的数是素数，百位数和个位数组成的数是素数
+	//(3)千位数和百位数组成的数是素数，千位数和十位数组成的数是素数
+
+
+
+(1)
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int prime(int number)
+{
+	int i;
+	for(i=2;i<number;i++)
+	{
+		if((number%i)==0){return 0;}
+	
+	
+	}return number;
+}
+
+
+
+void main()
+{
+
+	int i;char c[4];int j;int number;int a,b,s,d;
+	for(number=1000;number<=9999;number++)
+	{
+		j=number;
+	for(i=0;i<4;i++)
+	{
+		c[i]=j%10+'0';
+		j=j/10;
+		
+		
+	}
+	a=c[0]-'0'+(c[1]-'0')*10; //十位和个位组成的数
+	b=c[0]-'0'+(c[2]-'0')*10; //百位和个位组成的数
+	s=c[2]-'0'+(c[3]-'0')*10; //千位和百位组成的数
+	d=c[1]-'0'+(c[3]-'0')*10; //千位和十位组成的数
+    
+	if(prime(number))
+	{
+		printf("第一问的数为：");
+		printf("%d\n",number);
+	}
+	if(prime(a)&&prime(b))
+	{
+		printf("第二问的数为：");
+		printf("%d\n",number);
+	}
+	if(prime(s)&&prime(d))
+	{
+		printf("第三问的数为:");
+		printf("%d\n",number);
+	}
+}
+}
+
+//第二道：
+//从ftp上下载一个文本info.txt，其中是一段关于计算机历史的英文文档（不过是加过密的，打开看全是乱码），
+//要求密钥cip1和cip2以及解密后的第一个句子。条件：
+//(1)cip1和cip2都是八位无符号整数；
+//(2)加密过程：每次从文本中读出八位字符，然后将该字符和密钥交替异或便是该位置的密文。
+//如第个字节与cip1异或，第个字节和cip2异或，第个字节和cip1异或，。。。，如此循环至结束。
+//最后输出cip1和cip2以及第一段完整的英文句子。
+
+(2)
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <ctype.h>
+
+int isnormalchar(char c)
+{
+	//只简单的考虑这几种情况
+
+	if(!isprint(c))//不可打印的字符
+	{
+		return 0;
+	}
+	
+	if(isalnum(c)||isspace(c)||c=='\''||c=='\"'||c=='!'||c==','||c=='.'||c==':'||c=='?')//判断是否是字母、数字、常用标点符号
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+void main()
+{
+	int cp1,cp2,flag,count=0;
+	char c,ct,* cp;
+	int i,j,k;
+	FILE * fp;
+	if((fp=fopen("info.txt","r"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+	for(i=1;i<256;i++)//八位的无符号数的取值范围，进行暴力破解测试
+	{
+		for(j=1;j<256;j++)
+		{
+			cp1=i;cp2=j;k=1;
+			flag=1;//测试的密钥是否可用
+			rewind(fp);//fp指针重新回到文件开头
+			c=fgetc(fp);
+			while(c!=EOF)
+			{
+				if(k%2!=0)//奇数字节用第一个密钥
+				{
+					ct=c^cp1;
+				}else
+				{
+					ct=c^cp2;
+				}
+				if(!isnormalchar(ct))
+				{
+					flag=0;//密钥不对
+					break;//结束本次解密测试
+				}
+				c=fgetc(fp);
+				k++;
+			}
+			if(flag)
+			{
+				count++;//可能密钥组合计数
+				printf("Possible secret keys %d:\n",count);
+				printf("cp1=%d,cp2=%d\n",cp1,cp2);
+				printf("The first sentence:\n");
+				k=1;
+				rewind(fp);//fp指针重新回到文件开头
+				c=fgetc(fp);//输出使用该组密钥解密的第一个句子
+				while(c!=EOF)
+				{
+					if(k%2!=0)//奇数字节用第一个密钥
+					{
+						ct=c^cp1;
+					}else
+					{
+						ct=c^cp2;
+					}
+					if(ct=='.'||ct=='!')//句子之间的分割符
+					{
+						printf("%c",ct);
+						break;
+					}else
+					{
+						printf("%c",ct);  //字母之间交替
+						c=fgetc(fp);
+						k++;
+					}
+				}
+				printf("\n");
+			}
+		}
+	}
+	fclose(fp);
+}

@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int check (char c)
+{
+	switch (c)
+	{
+	case '0': return 0;
+	case '1': return 1;
+	case '2': return 2;
+	case '3': return 3;
+	case '4': return 4;
+	case '5': return 5;
+	case '6': return 6;
+	case '7': return 7;
+	case '8': return 8;
+	case '9': return 9;
+	case 'A':
+	case 'a': return 10;
+	case 'B':
+	case 'b': return 11;
+	case 'C': 
+	case 'c': return 12;
+	case 'D':
+	case 'd': return 13;
+	case 'E':
+	case 'e': return 14;
+	case 'F':
+	case 'f': return 15;
+	}
+}
+int trans (char a[],int l)
+{
+	int i,s;
+	s = i = 0;
+	for (; i<l; i++)
+	{
+		s = s * 16 + check (a[i]);
+	}
+	return s;
+
+}
+
+void main ()
+{
+	char ox[9];
+	char *s="D:\\jiang.dat";
+	int i,result,j;
+	FILE *fp;
+	fp = fopen (s,"w+");
+	if (!fp)
+	{
+		printf ("can't open the file !");
+		exit (0);
+	}
+
+	for(j=0; j<10; j++)
+	{
+		gets (ox);
+		i = strlen (ox);
+		result = trans (ox,i);
+		fprintf (fp,"%d ",result);
+		fputc ('\n',fp);
+		//printf ("%d\n",result);
+	}
+}
