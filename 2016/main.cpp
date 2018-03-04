@@ -112,6 +112,6 @@ int main() {
     WriteFile("/home/jinm32/by/2016/input.txt","/home/jinm32/by/2016/output.txt",words,count);
 
     finish = clock();
-    printf("Total time:%lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
+    printf("\nTotal time:%lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
     return 0;
 }
