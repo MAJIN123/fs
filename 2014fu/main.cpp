@@ -21,28 +21,32 @@ void run(char * filename,int k,long int d){
     }
     fclose(fp);
     int count=0;
-    for(int i=0;i<1;++i){
-        long long b0=data[i].num[0];
-        long long b1=data[i].num[1];
-        long long b2=data[i].num[2];
-        long long b3=data[i].num[3];
+    for(int i=0;i<10000;++i){
+        int b0=data[i].num[0];
+        int  b1=data[i].num[1];
+        int  b2=data[i].num[2];
+        int  b3=data[i].num[3];
         count=0;
         for(int j=0;j<10000;j++){
             if(i==j)
                 continue;
-            long long a0=data[j].num[0];
-            long long a1=data[j].num[1];
-            long long a2=data[j].num[2];
-            long long a3=data[j].num[3];
-            long long dis= sqrt(1.0*(long long)((b0 - a0) * (b0 - a0) + (b1 - a1) * (b1 - a1) + (b2 - a2) * (b2 - a2) + (b3 - a3) * (b3 - a3)));
-            if(dis<=d){
+            int a0=data[j].num[0];
+            int a1=data[j].num[1];
+            int a2=data[j].num[2];
+            int a3=data[j].num[3];
+            double dis= sqrt(1.0*(long long)abs(((b0 - a0) * (b0 - a0)/100000000 + (b1 - a1) * (b1 - a1)/100000000 + (b2 - a2) * (b2 - a2)/100000000 + (b3 - a3) * (b3 - a3)/100000000)));
+            //printf("%.2lf  ",dis);
+            if(dis<=d/10000){
+                //printf("第%d个：",i);
+                //printf("%d,%d,%d,%d\n",b0,b1,b2,b3);
                 count++;
                 if(count>k){
+                   // cout<<count<<endl;
                     break;
                 }
             }
         }
-        if(count==k){
+        if(count<=k){
             printf("第%d个：",i);
             printf("%d,%d,%d,%d\n",b0,b1,b2,b3);
 
@@ -51,6 +55,6 @@ void run(char * filename,int k,long int d){
     }
 }
 int main() {
-    run("/home/jinm32/by/2014fu/1.bin",10,7500);
+    run("/home/jinm32/by/2014fu/1.bin",110,7500);
     return 0;
 }
