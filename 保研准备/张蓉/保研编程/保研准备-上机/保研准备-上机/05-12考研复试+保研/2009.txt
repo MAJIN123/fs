@@ -1,0 +1,108 @@
+//2009年苏大上机题目
+	//（1）用IE浏览器从FTP上下载org.dat，并保存在D盘的根目录下。
+	//（2）此文件中按文本方式存放了一段其他文章，其中有若干长度小于15的十进制或八进制数字，数字之间用“,”分开，数字内部存在且仅存在空格。
+	//（3）八进制数以起始位“0”作为标示与十进制数区分。
+	//（4）顺序读取这些数字将他们转变为十进制数后按从大到小的顺序排序后，输出到D盘根目录下new.txt，每个数字一行。
+
+	//eg：_235_,34__2,_043_1_,1_3   分别是：十进制235，十进制342.，八进制431，十进制13。_代表空格
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+
+
+
+int number(char c[])
+{
+	int i;int j;int sum=0;int s=1;
+	for(i=0;c[i]!='\0';i++){j=i;}
+	for(i=j;i>=0;i--)
+	{
+		if(c[0]!='0'){
+		sum=sum+(c[i]-'0')*s;
+		s=s*10;
+		}
+		else
+		{
+		sum=sum+(c[i]-'0')*s;
+		s=s*8;
+		}
+	}
+	return sum;
+}
+
+void sort(int a[],int n)
+{
+	int i,j;int temp;
+	for(i=0;i<n-1;i++)
+	{
+		for(j=0;j<n-i-1;j++)
+		{
+			if(a[j]<a[j+1])
+			{
+				temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}
+	}
+}
+void main()
+{
+	
+	int a[4];
+	int n;FILE *fp;FILE *ft;char c[4][8];int i=0,j=0;char ch;char b;
+	if((fp=fopen("org2.dat","r"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+
+
+	if((ft=fopen("new2.txt","w"))==NULL)
+	{
+		printf("不能打开文件");
+    }
+	    ch=fgetc(fp);
+		while(ch!=EOF)
+		
+		{
+			while(ch==' ')ch=fgetc(fp);
+			if(ch!=',')
+			{
+				c[i][j]=ch;
+				c[i][j+1]='\0';
+				
+				j++;
+			}
+			else
+			{
+				
+				c[i][j]='\0';
+				i++;j=0;
+			}
+
+		
+			
+			ch=fgetc(fp);
+			
+		}
+
+		
+		
+
+			for(i=0;i<4;i++)
+			{
+			a[i]=number(c[i]);
+			}
+			sort(a,4);
+			for(i=0;i<4;i++)
+			{
+				fprintf(ft,"%d\n",a[i]);
+			}
+
+		
+
+		
+}
