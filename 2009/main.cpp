@@ -35,6 +35,9 @@ int str_int(char num[],int count){
         return res;
     }
 }
+
+
+
 int cmp ( const void *a , const void *b )
 {
     return *(int *)a - *(int *)b;
@@ -67,27 +70,32 @@ void ReadData(char *filename,char *outputfile){
         }while(ch!=','&&ch!=EOF);
         b[count]=str_int(num,i);
         count++;
-        //printf("%d\n",str_int(num,i));
+        printf("%d ",str_int(num,i));
         ch=fgetc(fp);
     }
     fclose(fp);
+    printf("\n");
+
+    for(int i=0;i<count;++i)
+        printf("%d ",b[i]);
+    printf("\n");
     qsort(b,count,4,cmp);
-    //for(int i=0;i<count;++i)
-    //   printf("%d ",b[i]);
-    /*
+    for(int i=0;i<count;++i)
+       printf("%d ",b[i]);
+
     FILE *out=fopen(outputfile,"w");
     if(out==NULL){
         printf("can not open file\n");
         return;
     }
-    for(int i=0;i<count;++i)
-        fputc(b[i],out);
+    for(int i=0;i<count;++i) {
+        fprintf(out,"%d\n",b[i]);
+    }
     fclose(out);
-    */
-
 }
 int main() {
     ReadData("/home/jinm32/by/2009/input.txt","/home/jinm32/by/2009/new.txt");
+    //printf("%s",int_str(234));
     //char a[]="321";
     //int x=str_int(a,3);
     //printf("%d",x-1);
