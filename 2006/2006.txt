@@ -1,0 +1,53 @@
+//2006年上级复试题
+//找出100到1000内的不含9的素数，存到result.txt文件中。
+
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+#include<math.h>
+
+
+int prime(int number)
+{
+	int i;
+	for(i=2;i<number;i++)
+	{
+		if((number%i)==0){return 0;}
+	
+	
+	}return number;
+}
+
+int non9(int number)
+{
+	int i=number;
+	while(i!=0)
+	{
+		if((i%10)==9)return 0;
+		i=i/10;
+	}return number;
+}
+
+
+void main()
+{
+	int n;FILE *fp;char c;
+	if((fp=fopen("result.txt","w"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+
+		for(n=100;n<=1000;n++)
+		{
+			if(prime(n)!=0)
+			{
+				
+			  if(non9(n)!=0)
+			  fprintf(fp,"%d\n",n);
+			}
+			else continue;
+	
+			
+	       }
+		//c=getchar();
+}
