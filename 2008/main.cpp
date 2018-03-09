@@ -24,8 +24,79 @@
 //因为第一次读取是大小写敏感的，后来又进行了首字母大写转化
 //#include <iostream>
 #include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdio.h>
+void Readfile(char *filename,char *output){
+    FILE *in=fopen(filename,"r");
+    FILE *out=fopen(output,"w");
+    if(in==NULL){
+        printf("can not open file\n");
+        return;
+    }
+    if(out==NULL){
+        printf("can not open file\n");
+        return;
+    }
+    //char sen[128]="";
+    char a[2000][15];
+    int count=0;
+    int len=0;
+    //printf("%d",strlen(sen));
+    char ch;
+    ch = fgetc(in);
+    while(ch!=EOF){
+        if(ch==' '){
+            //一个单词结束
+            int flag=0;
+            for(int i=0;i<count;++i){
+                if(strcmp(a[count],a[i])==0){
+                    flag=1;//重复了
+                    break;
+                }
+            }
+            if(flag)
+                len=0;
+            else{
+                len=0;
+                count++;
+            }
+            //printf("%d",len);
+        }
+        else {
+            a[count][len] = ch;
+            a[count][len + 1] = '\0';
+            len++;
+        }
+        ch = fgetc(in);
+    }
 
+    for(int i=0;i<count;++i){
+        if(strcmp(a[i],"THE")==0||strcmp(a[i],"The")==0||strcmp(a[i],"the")==0){
+            continue;
+        }
+        a[i][0]=toupper(a[i][0]);
+        /*
+        if(91 > a[i][0]){
+            a[i][0]=a[i][0]-32;
+        }
+         */
+        fprintf(out,"%s\n",a[i]);
+    }
+
+
+
+
+
+    fclose(in);
+    fclose(out);
+
+
+
+}
 int main() {
+    Readfile("/home/jinm32/by/2008/org.data","/home/jinm32/by/2008/new.txt");
     //std::cout << "Hello, World!" << std::endl;
     return 0;
 }

@@ -1,0 +1,15 @@
+Constructor
+Is
+Used
+To
+Initialize
+Object
+Destructor
+Is
+used
+Delete
+Object
+Calling
+Sequence
+Of
+Opposite
