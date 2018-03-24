@@ -1,0 +1,101 @@
+//2008年苏大上机题目
+	//（1）用IE从FTP上下载org.dat，并保存在D盘的根目录中。
+	//（2）此文件中按文本方式存放了一段其他文章，其中有若干长度小于15的英文单词，单词之间用空格分开，无其他符号。
+	//（3）顺序读取这段文章的不同的单词（大小写敏感），同时在读取的过程中排除所有的单词THE以及变形，即这些单词不能出现在读取的结果中。
+	//（4）将读取的所有单词的首字母转大写后，输出D根目录下new.txt，每个单词一行。
+	//那段文字可以点右键打开方式中用记事本打开，内容是：
+	//The constructor is used to initialize the object The destructor is
+	//used to delete the Object the calling sequence of constructor is opposite to the calling sequence of destructor
+	//正确结果应该是
+	//Constructor
+	//Is
+	//Used
+	//To
+	//Initialize 
+	//Object
+	//Destructor 
+	//Delete
+	//Object 
+	//Calling
+	//Sequence
+	//Of
+	//Opposite
+	//注意有两个Object
+	//因为第一次读取是大小写敏感的，后来又进行了首字母大写转化
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+
+
+
+
+void main()
+{
+	
+	int flag=0;
+	int n;FILE *fp;FILE *ft;char c[29][20];int i=0,j=0;char ch;char b;
+	if((fp=fopen("org.dat","r"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+
+
+	if((ft=fopen("new.txt","w"))==NULL)
+	{
+		printf("不能打开文件");
+	}
+	ch=fgetc(fp);
+		while(ch!=EOF)
+		
+		{
+			if(ch!=' ')
+			{
+				c[i][j]=ch;
+				c[i][j+1]='\0';
+				
+				j++;
+			}
+			else
+			{
+				
+				c[i][j]='\0';
+				i++;j=0;
+			}
+
+
+			ch=fgetc(fp);
+			
+		}
+;
+		for(i=0;i<29;i++)
+		{
+			if(c[i][0]>='a'&&c[i][0]<='z')c[i][0]=c[i][0]-32;
+		}
+		//for(i=0;i<29;i++)	
+		//printf("%s\n",c[i]);
+		
+		for(i=0;i<29;i++)
+		{   
+			flag=0;
+			if(strcmp(c[i],"the")==0||strcmp(c[i],"The")==0)continue;
+			else for(j=0;j<i;j++)
+			{
+				if(strcmp(c[i],c[j])==0)flag=1;
+				
+				
+			}
+			if(flag==1)
+			{
+				
+			}
+			else
+			{
+			 fprintf(ft,"%s\n",c[i]);
+			}
+	   }
+		
+		//b=getchar();
+}
