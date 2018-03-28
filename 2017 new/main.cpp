@@ -10,9 +10,8 @@ typedef struct node {
     double dinaMiDu;
 }Data;
 
-
 double Distance(Data a,Data b) {
-    return (double) sqrt(((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)) * 1.0);
+    return sqrt(((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)) * 1.0);
 }
 
 void Cover_Points(Data *points,int num) {
@@ -22,7 +21,7 @@ void Cover_Points(Data *points,int num) {
         points[i].r = Distance(points[i], points[i + 1]);
         n = 0;
         for (int j = 0; j < num; ++j) {
-            if (Distance(points[i], points[j]) < points[i].r)
+            if (Distance(points[i], points[j]) <= points[i].r)
                 n++;
         }
         points[i].count = n;
@@ -30,16 +29,10 @@ void Cover_Points(Data *points,int num) {
     points[num - 1].r = Distance(points[num - 1], points[0]);
     n = 0;
     for (int i = 0; i < num; ++i) {
-        if (Distance(points[i], points[num - 1]) < points[num - 1].r)
+        if (Distance(points[i], points[num - 1]) <= points[num - 1].r)
             n++;
     }
     points[num - 1].count = n;
-
-
-    for (int i = 0; i < num - 1; ++i) {
-        printf("(%d %d)\n", points[i].x, points[i].y);
-    }
-
 }
 
 void Q4(Data *points,int num) {
@@ -49,7 +42,7 @@ void Q4(Data *points,int num) {
     int flag;
     for (int i = 0; i < 5 && i < num; ++i) {
         flag = i;
-        for (int j = 0; j < num; ++j) {
+        for (int j = i + 1; j < num; ++j) {
             if (points[j].dinaMiDu > points[flag].dinaMiDu)
                 flag = j;
         }
@@ -65,7 +58,7 @@ void Q4(Data *points,int num) {
 }
 
 
-void ReadFile(char *intput,Data *points,int *cot) {
+void ReadFile(char *intput,Data **points,int *cot) {
     //Q1 and Q2
     FILE *fp = fopen(intput, "rb");
     if (fp == NULL) {
@@ -76,13 +69,13 @@ void ReadFile(char *intput,Data *points,int *cot) {
     fseek(fp, 0, 0);
     fseek(fp, 0, 2);
     *cot = ftell(fp) / 8;
-    points = (Data *) malloc(sizeof(Data) * (*cot));
+    *points = (Data *) malloc(sizeof(Data) * (*cot));
 
     fseek(fp, 0, 0);
     for (int i = 0; i < *cot; ++i) {
-        fread(&points[i], 8, 1, fp);
+        fread(&(*points)[i], 8, 1, fp);
     }
-
+    /*
     //Q3
     int num = *cot;
     int n;
@@ -125,17 +118,16 @@ void ReadFile(char *intput,Data *points,int *cot) {
         printf("(%d,%d)(%5d)(%7.2f)\n", points[i].x, points[i].y, points[i].count, points[i].dinaMiDu);
 
     }
+     */
 
     fclose(fp);
 }
 int main() {
     Data *points;
     int count = 0;
-    ReadFile("/home/jinm32/by/2017 new/data.bin", points, &count);
-    //printf("(%d %d)\n",points[2].x,points[2].y);
-    //Cover_Points(points,count);
-    //free(points);
-    //Q4(points,count);
-    //std::cout << "Hello, World!" << std::endl;
+    ReadFile("/home/jinm32/by/2017 new/data.bin", &points, &count);
+    Cover_Points(points,count);
+    Q4(points,count);
+    free(points);
     return 0;
 }
