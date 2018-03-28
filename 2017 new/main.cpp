@@ -9,7 +9,19 @@ typedef struct node {
     int count;//the number of points
     double dinaMiDu;
 }Data;
-
+double Distance(Data a,Data b);
+void Cover_Points(Data *points,int num);
+void Q4(Data *points,int num);
+void ReadFile(char *intput,Data **points,int *cot);
+int main() {
+    Data *points;
+    int count = 0;
+    ReadFile("/home/jinm32/by/2017 new/data.bin", &points, &count);
+    Cover_Points(points,count);
+    Q4(points,count);
+    free(points);
+    return 0;
+}
 double Distance(Data a,Data b) {
     return sqrt(((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)) * 1.0);
 }
@@ -121,13 +133,4 @@ void ReadFile(char *intput,Data **points,int *cot) {
      */
 
     fclose(fp);
-}
-int main() {
-    Data *points;
-    int count = 0;
-    ReadFile("/home/jinm32/by/2017 new/data.bin", &points, &count);
-    Cover_Points(points,count);
-    Q4(points,count);
-    free(points);
-    return 0;
 }
