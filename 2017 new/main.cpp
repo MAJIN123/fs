@@ -80,57 +80,21 @@ void ReadFile(char *intput,Data **points,int *cot) {
 
     fseek(fp, 0, 0);
     fseek(fp, 0, 2);
-    *cot = ftell(fp) / 8;
-    *points = (Data *) malloc(sizeof(Data) * (*cot));
+    *cot = ftell(fp) / 4;
+    *points = (Data *) malloc(sizeof(Data) * (*cot - 1));
 
     fseek(fp, 0, 0);
+    int temp[*cot];
     for (int i = 0; i < *cot; ++i) {
-        fread(&(*points)[i], 8, 1, fp);
+        fread(&temp[i], 4, 1, fp);
+        //printf("(%d,%d)\n",(*points)[i].x,(*points)[i].y);
     }
-    /*
-    //Q3
-    int num = *cot;
-    int n;
-    for (int i = 0; i < num - 1; ++i) {
-        points[i].r = Distance(points[i], points[i + 1]);
-        n = 0;
-        for (int j = 0; j < num; ++j) {
-            if (Distance(points[i], points[j]) <= points[i].r)
-                n++;
-        }
-        points[i].count = n;
+    for (int i = 0; i < (*cot) - 1; ++i) {
+        (*points)[i].x = temp[i];
+        (*points)[i].y = temp[i + 1];
     }
-    points[num - 1].r = Distance(points[num - 1], points[0]);
-    n = 0;
-    for (int i = 0; i < num; ++i) {
-        if (Distance(points[i], points[num - 1]) <= points[num - 1].r)
-            n++;
-    }
-    points[num - 1].count = n;
 
-
-
-
-    //Q4
-    for (int i = 0; i < num; ++i) {
-        points[i].dinaMiDu = (double) points[i].count / ((3.14 * points[i].r * points[i].r));
-    }
-    int flag;
-    for (int i = 0; i < 5 && i < num; ++i) {
-        flag = i;
-        for (int j = i + 1; j < num; ++j) {
-            if (points[j].dinaMiDu > points[flag].dinaMiDu)
-                flag = j;
-        }
-        if (flag != i) {
-            Data temp = points[flag];
-            points[flag] = points[i];
-            points[i] = temp;
-        }
-        printf("(%d,%d)(%5d)(%7.2f)\n", points[i].x, points[i].y, points[i].count, points[i].dinaMiDu);
-
-    }
-     */
+    (*cot) = (*cot) - 1;
 
     fclose(fp);
 }
